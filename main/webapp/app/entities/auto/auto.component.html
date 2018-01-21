@@ -1,0 +1,76 @@
+<div>
+    <h2>
+        <span>Autos</span>
+        <button class="btn btn-primary float-right jh-create-entity create-auto" [routerLink]="['/', { outlets: { popup: ['auto-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span >
+            Create new Auto
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="autos">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="marca"><span>Marca</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="modello"><span>Modello</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="cilindrata"><span>Cilindrata</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="alimentazione"><span>Alimentazione</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="colore"><span>Colore</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="annoImmatricolazione"><span>Anno Immatricolazione</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="statoPrenotazione"><span>Stato Prenotazione</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let auto of autos ;trackBy: trackId">
+                <td><a [routerLink]="['../auto', auto.id ]">{{auto.id}}</a></td>
+                <td>{{auto.marca}}</td>
+                <td>{{auto.modello}}</td>
+                <td>{{auto.cilindrata}}</td>
+                <td>{{auto.alimentazione}}</td>
+                <td>{{auto.colore}}</td>
+                <td>{{auto.annoImmatricolazione}}</td>
+                <td>{{auto.statoPrenotazione}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../auto', auto.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'auto/'+ auto.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'auto/'+ auto.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <div *ngIf="autos && autos.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [maxSize]="5" [pageSize]="itemsPerPage" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>
